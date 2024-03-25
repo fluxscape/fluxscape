@@ -42,10 +42,23 @@ function AsSelfHosted({
 }: CloudServiceModalProps) {
   const [name, setName] = useState(environment.name);
   const [description, setDescription] = useState(environment.description);
+  const [appId, setAppId] = useState(environment.appId);
+  const [url, setUrl] = useState(environment.url);
   const [showMasterKey, setShowMasterKey] = useState(false);
   const [masterKey, setMasterKey] = useState(environment.masterKey);
 
   function update() {
+    // Early return if none of the values changed
+    if (
+      name === environment.name &&
+      description === environment.description &&
+      appId === environment.appId &&
+      masterKey === environment.masterKey &&
+      url === environment.url
+    ) {
+      return;
+    }
+
     CloudService.instance.backend
       .update({
         id: environment.id,
@@ -86,12 +99,14 @@ function AsSelfHosted({
 
           <Columns hasXGap={4} layoutString="1 1">
             <TextInput
-              value={environment.appId}
+              value={appId}
               variant={TextInputVariant.InModal}
               label="App Id"
-              isReadonly
               isCopyable
               UNSAFE_style={{ flex: 1 }}
+              onChange={(e) => setAppId(e.target.value)}
+              onBlur={update}
+              onEnter={update}
             />
             <VStack>
               <TextInput
@@ -125,11 +140,13 @@ function AsSelfHosted({
           </Columns>
 
           <TextInput
-            value={environment.url}
+            value={url}
             variant={TextInputVariant.InModal}
             label="Endpoint"
-            isReadonly
             isCopyable
+            onChange={(e) => setUrl(e.target.value)}
+            onBlur={update}
+            onEnter={update}
           />
         </VStack>
       </Box>
