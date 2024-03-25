@@ -54,7 +54,9 @@ export class ExternalCloudService {
 
     if (options.name) broker.name = options.name;
     if (options.description) broker.description = options.description;
+    if (options.appId) broker.appId = options.appId;
     if (options.masterKey) broker.masterKey = options.masterKey;
+    if (options.url) broker.endpoint = options.url;
 
     await JSONStorage.set('externalBrokers', { brokers });
 

@@ -64,7 +64,9 @@ function AsSelfHosted({
         id: environment.id,
         name,
         description,
-        masterKey
+        appId,
+        masterKey,
+        url
       })
       .then(() => {
         ToastLayer.showSuccess(`Updated Cloud Service`);
