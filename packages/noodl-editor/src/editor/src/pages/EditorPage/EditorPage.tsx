@@ -43,6 +43,7 @@ import { BaseWindow } from '../../views/windows/BaseWindow';
 import { whatsnewRender } from '../../whats-new';
 import { IRouteProps } from '../AppRoute';
 import { useSetupSettings } from './useSetupSettings';
+import { PluginContextProvider } from '@noodl-contexts/PluginContext';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ImportOverwritePopupTemplate = require('../../templates/importoverwritepopup.html');
@@ -223,24 +224,26 @@ export function EditorPage({ route }: EditorPageProps) {
   return (
     <NodeGraphContextProvider>
       <ProjectDesignTokenContextProvider>
-        <BaseWindow>
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <>
-              <FrameDivider
-                first={<SidePanel />}
-                second={<ErrorBoundary>{Boolean(Document) && <Document />}</ErrorBoundary>}
-                sizeMin={200}
-                size={frameDividerSize}
-                horizontal
-                onSizeChanged={setFrameDividerSize}
-              />
+        <PluginContextProvider>
+          <BaseWindow>
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <>
+                <FrameDivider
+                  first={<SidePanel />}
+                  second={<ErrorBoundary>{Boolean(Document) && <Document />}</ErrorBoundary>}
+                  sizeMin={200}
+                  size={frameDividerSize}
+                  horizontal
+                  onSizeChanged={setFrameDividerSize}
+                />
 
-              {Boolean(lesson) && <Frame instance={lesson} isContentSize isFitWidth />}
-            </>
-          )}
-        </BaseWindow>
+                {Boolean(lesson) && <Frame instance={lesson} isContentSize isFitWidth />}
+              </>
+            )}
+          </BaseWindow>
+        </PluginContextProvider>
       </ProjectDesignTokenContextProvider>
     </NodeGraphContextProvider>
   );

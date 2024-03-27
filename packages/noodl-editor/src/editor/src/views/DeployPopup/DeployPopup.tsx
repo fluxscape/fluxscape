@@ -1,4 +1,5 @@
-import React, { RefObject } from 'react';
+import { usePluginContext } from '@noodl-contexts/PluginContext';
+import React, { RefObject, useEffect, useRef } from 'react';
 
 import { ActivityIndicator } from '@noodl-core-ui/components/common/ActivityIndicator';
 import { BaseDialog } from '@noodl-core-ui/components/layout/BaseDialog';
@@ -25,7 +26,12 @@ function DeployPopupChild() {
       >
         <PopupSection title="Deploy options" />
 
-        <Tabs tabs={[{ label: 'Self Hosting', content: <DeployToFolderTab />, testId: 'self-hosting-tab-button' }]} />
+        <Tabs
+          tabs={[
+            { label: 'Fluxscape', content: <FluxscapeDeployTab />, testId: 'fluxscape-tab-button' },
+            { label: 'Self Hosting', content: <DeployToFolderTab />, testId: 'self-hosting-tab-button' }
+          ]}
+        />
 
         {hasActivity && <ActivityIndicator isOverlay />}
       </div>
@@ -53,4 +59,17 @@ export function DeployPopup(props: DeployPopupProps) {
       </BaseDialog>
     </DeployContextProvider>
   );
+}
+
+function FluxscapeDeployTab() {
+  const { createFrame, moveFrame } = usePluginContext();
+
+  const pluginRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    createFrame('fluxscape-hosting', 'http://192.168.0.33:8574/');
+    moveFrame('fluxscape-hosting', pluginRef.current);
+  }, [pluginRef.current]);
+
+  return <div ref={pluginRef}></div>;
 }
