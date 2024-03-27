@@ -1,10 +1,10 @@
 {
   "name": "noodl-editor",
-  "productName": "Noodl Editor",
+  "productName": "Fluxscape",
   "description": "Low-code for when experience matter",
   "author": "Noodl <info@noodl.net>",
   "homepage": "https://noodl.net",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "src/main/main.js",
   "scripts": {
     "build": "npx ts-node -P ./tsconfig.build.json ./scripts/build.ts",
