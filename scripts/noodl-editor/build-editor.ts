@@ -12,7 +12,9 @@ import { getCurrentPlatform } from '../helper';
 
   // Inputs
   const WORKSPACE_PATH = path.resolve(__dirname, '../..');
+  const DISABLE_SIGNING = process.env.DISABLE_SIGNING;
   const TARGET_PLATFORM = process.env.TARGET_PLATFORM || getCurrentPlatform();
+  const CSC_NAME = process.env.CSC_NAME;
 
   // Variables
   const noodlEditorPath = path.join(WORKSPACE_PATH, 'packages', 'noodl-editor');
@@ -93,7 +95,9 @@ import { getCurrentPlatform } from '../helper';
     stdio: 'inherit',
     env: {
       ...process.env,
-      TARGET_PLATFORM
+      TARGET_PLATFORM,
+      DISABLE_SIGNING,
+      CSC_NAME,
     }
   });
   console.log("--- 'npm run build' done!");
