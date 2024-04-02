@@ -60,15 +60,14 @@ export function Logo({
 const DefaultIcon = React.memo(function () {
   return (
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 13.3981C0 5.99852 5.99852 0 13.3981 0H46.6019C54.0015 0 60 5.99852 60 13.3981V46.6019C60 54.0015 54.0015 60 46.6019 60H13.3981C5.99852 60 0 54.0015 0 46.6019V13.3981Z" fill="url(#paint0_radial_568_4289)"/>
-    <g filter="url(#filter0_i_568_4289)">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M44.707 8.67749H29.1188C18.398 8.67751 9.70703 17.3685 9.70703 28.0893C9.70703 38.7937 18.3714 47.4744 29.0696 47.501L29.1188 47.5011L29.1188 19.854L29.1188 22.2039C29.1254 20.9049 30.1804 19.854 31.4809 19.854H44.707C47.7933 19.854 50.2953 17.352 50.2953 14.2657C50.2953 11.1794 47.7933 8.67749 44.707 8.67749ZM27.6482 36.0304C27.6482 36.8426 28.3066 37.501 29.1188 37.501V34.5598C28.3066 34.5598 27.6482 35.2183 27.6482 36.0304Z" fill="url(#paint1_linear_568_4289)"/>
+    <g filter="url(#filter0_i_574_6111)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.76172 24.8943L3.76172 25.7516C3.99042 39.1618 14.9298 49.9629 28.3932 49.9685H28.4072L28.4072 14.8675L48.1979 14.8675C52.1163 14.8675 55.2928 11.691 55.2928 7.77258C55.2928 3.85417 52.1163 0.677665 48.1979 0.677666L28.4072 0.677669V0.67749L28.4036 0.67749C14.9354 0.677491 3.99048 11.4808 3.76172 24.8943ZM31.3869 14.8676H28.4105V17.7311C28.481 16.1441 29.7849 14.8778 31.3869 14.8676ZM26.5352 35.4054C26.5352 36.4366 27.3711 37.2725 28.4022 37.2725V33.5383C27.3711 33.5383 26.5352 34.3743 26.5352 35.4054Z" fill="url(#paint0_linear_574_6111)"/>
     </g>
-    <g filter="url(#filter1_i_568_4289)">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M29.1202 23.9717C22.6227 23.9717 17.3555 29.2389 17.3555 35.7364C17.3555 42.2339 22.6227 47.5011 29.1202 47.5011C29.9324 47.5011 30.5908 48.1595 30.5908 48.9717C30.5908 49.7839 29.9324 50.4423 29.1202 50.4423H26.7672C25.4677 50.4423 24.4143 51.4957 24.4143 52.7952C24.4143 54.0947 25.4677 55.1482 26.7672 55.1482H29.1202C33.9933 55.1482 37.9437 51.1978 37.9437 46.3247C37.9437 41.4516 33.9933 37.5011 29.1202 37.5011C28.308 37.5011 27.6496 36.8427 27.6496 36.0305C27.6496 35.2184 28.308 34.5599 29.1202 34.5599H35.5908C38.5146 34.5599 40.8849 32.1897 40.8849 29.2658C40.8849 26.342 38.5146 23.9717 35.5908 23.9717L29.1202 23.9717Z" fill="url(#paint2_radial_568_4289)"/>
+    <g filter="url(#filter1_i_574_6111)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4805 35.166L13.4805 34.8968C13.5528 26.7095 20.2122 20.0947 28.4165 20.0947L28.4171 20.0947L28.4171 37.2721H28.4176C34.571 37.2721 39.5657 42.2334 39.6196 48.3741V48.5751C39.5657 54.7136 34.5746 59.6736 28.4242 59.6771H28.4177V59.6772H25.4304C23.7805 59.6772 22.443 58.3397 22.443 56.6898C22.443 55.04 23.7805 53.7025 25.4304 53.7025H28.4051V53.7026C29.4363 53.7026 30.2722 52.8667 30.2722 51.8355C30.2722 50.8084 29.4428 49.975 28.4171 49.9685V49.9681H28.4102C20.2088 49.9647 13.5527 43.3512 13.4805 35.166ZM28.4177 20.0948L36.6329 20.0948C40.345 20.0948 43.3544 23.1042 43.3544 26.8163C43.3544 30.5285 40.3451 33.5378 36.6329 33.5378L28.4177 33.5378L28.4177 20.0948ZM28.4049 37.2724C27.3737 37.2724 26.5378 36.4365 26.5378 35.4053C26.5378 34.3741 27.3737 33.5382 28.4049 33.5382V37.2724Z" fill="url(#paint1_radial_574_6111)"/>
     </g>
     <defs>
-    <filter id="filter0_i_568_4289" x="9.70703" y="8.67749" width="40.5898" height="42.8235" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <filter id="filter0_i_574_6111" x="3.76172" y="0.67749" width="51.5312" height="53.291" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
     <feFlood flood-opacity="0" result="BackgroundImageFix"/>
     <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
@@ -76,9 +75,9 @@ const DefaultIcon = React.memo(function () {
     <feGaussianBlur stdDeviation="8"/>
     <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
     <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_568_4289"/>
+    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_574_6111"/>
     </filter>
-    <filter id="filter1_i_568_4289" x="17.3555" y="23.9717" width="23.5312" height="35.1765" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <filter id="filter1_i_574_6111" x="13.4805" y="20.0947" width="29.875" height="43.5825" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
     <feFlood flood-opacity="0" result="BackgroundImageFix"/>
     <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
@@ -86,23 +85,18 @@ const DefaultIcon = React.memo(function () {
     <feGaussianBlur stdDeviation="12"/>
     <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
     <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
-    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_568_4289"/>
+    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_574_6111"/>
     </filter>
-    <radialGradient id="paint0_radial_568_4289" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(30 30) rotate(45) scale(42.4264)">
-    <stop offset="0.555" stop-color="#111111"/>
-    <stop offset="1"/>
-    </radialGradient>
-    <linearGradient id="paint1_linear_568_4289" x1="29.1188" y1="28.0893" x2="9.70703" y2="28.0893" gradientUnits="userSpaceOnUse">
+    <linearGradient id="paint0_linear_574_6111" x1="28.407" y1="25.323" x2="3.76172" y2="25.323" gradientUnits="userSpaceOnUse">
     <stop stop-color="#FF1818"/>
     <stop offset="0.835" stop-color="#FFC700"/>
     </linearGradient>
-    <radialGradient id="paint2_radial_568_4289" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(41.0747 29.4037) rotate(125.991) scale(31.253 30.8202)">
+    <radialGradient id="paint1_radial_574_6111" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(43.5954 26.9914) rotate(125.992) scale(39.6798 39.1304)">
     <stop stop-color="#FF0000"/>
     <stop offset="1" stop-color="#6732FF"/>
     </radialGradient>
     </defs>
     </svg>
-    
   );
 });
 
