@@ -1,9 +1,9 @@
 {
   "name": "noodl-editor",
   "productName": "Fluxscape",
-  "description": "Low-code for when experience matter",
-  "author": "Noodl <info@noodl.net>",
-  "homepage": "https://noodl.net",
+  "description": "Node-Based App Builder for Scalability & Rapid Development, a fork of Noodl",
+  "author": "Fluxscape <contact@fluxscape.io>",
+  "homepage": "https://fluxscape.io",
   "version": "1.0.0",
   "main": "src/main/main.js",
   "scripts": {
