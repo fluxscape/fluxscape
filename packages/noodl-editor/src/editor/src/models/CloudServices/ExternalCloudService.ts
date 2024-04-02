@@ -3,7 +3,7 @@ import { JSONStorage } from '@noodl/platform';
 import { CreateEnvironment, CreateEnvironmentRequest, UpdateEnvironmentRequest } from '@noodl-models/CloudServices';
 
 /** The data format is separated from our internal model. */
-type EnvironmentDataFormat = {
+export type EnvironmentDataFormat = {
   enabled: boolean;
   id: string;
   name: string;

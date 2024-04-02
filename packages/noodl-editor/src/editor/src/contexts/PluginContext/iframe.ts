@@ -1,41 +1,19 @@
-import { ToastLayer } from '../../views/ToastLayer';
+import * as Notify from './commands/notify';
+import * as UploadAwsS3 from './commands/upload-aws-s3';
+
+type IFrameCommand = Notify.Command | UploadAwsS3.Command;
+
+const commands: Record<IFrameCommand['kind'], (command: IFrameCommand, event: MessageEvent) => Promise<void>> = {
+  notify: Notify.execute,
+  'upload-aws-s3': UploadAwsS3.execute
+};
 
 export function commandEventHandler(event: MessageEvent) {
   try {
-    commandHandler(event.data, event);
+    const command = event.data;
+    const handler = commands[command.kind];
+    handler && handler(command, event);
   } catch (error) {
     console.error(error);
-  }
-}
-
-type IFrameCommand =
-  | {
-      kind: 'notify';
-      messageType: 'info' | 'success' | 'error';
-      message: string;
-    }
-  | {
-      kind: 'upload-aws-s3';
-    };
-
-function commandHandler(command: IFrameCommand, _event: MessageEvent) {
-  switch (command.kind) {
-    case 'notify': {
-      switch (command.messageType || 'info') {
-        case 'info': {
-          ToastLayer.showInteraction(String(command.message));
-          break;
-        }
-        case 'success': {
-          ToastLayer.showSuccess(String(command.message));
-          break;
-        }
-        case 'error': {
-          ToastLayer.showError(String(command.message));
-          break;
-        }
-      }
-      break;
-    }
   }
 }
