@@ -1,5 +1,5 @@
 import s3 from 's3';
-import { platform } from '@noodl/platform';
+import { filesystem, platform } from '@noodl/platform';
 
 import { Environment, EnvironmentDataFormat } from '@noodl-models/CloudServices';
 import { ProjectModel } from '@noodl-models/projectmodel';
@@ -10,24 +10,35 @@ import { ToastLayer } from '../../../views/ToastLayer';
 
 export type Command = {
   kind: 'upload-aws-s3';
-
+  taskId: string;
   cloudService: EnvironmentDataFormat;
-
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
-  region: string;
-  bucket: string;
-  prefix: string;
-
-  progressMessage: string;
-  successMessage: string;
-  failureMessage: string;
+  s3: {
+    accessKeyId: string;
+    secretAccessKey: string;
+    sessionToken: string;
+    region: string;
+    bucket: string;
+    prefix: string;
+  }
+  messages: {
+    progress: string;
+    success: string;
+    failure: string;
+  }
+  // Initial version to a more extendable system that can be used with these
+  // kind of events.
+  events: {
+    complete: {
+      kind: "fetch",
+      resource: string,
+      options: RequestInit
+    }[]
+  }
 };
 
-export async function execute(command: Command, _event: MessageEvent) {
+export async function execute(command: Command, event: MessageEvent) {
   const project = ProjectModel.instance;
-  const taskId = guid();
+  const taskId = command.taskId || guid();
 
   // Setup the build steps
   const compilation = createEditorCompilation(project).addProjectBuildScripts();
@@ -45,24 +56,48 @@ export async function execute(command: Command, _event: MessageEvent) {
     await uploadDirectory(
       {
         localDir: tempDir,
-        accessKeyId: command.accessKeyId,
-        secretAccessKey: command.secretAccessKey,
-        sessionToken: command.sessionToken,
-        region: command.region,
-        bucket: command.bucket,
-        prefix: command.prefix
+        accessKeyId: command.s3.accessKeyId,
+        secretAccessKey: command.s3.secretAccessKey,
+        sessionToken: command.s3.sessionToken,
+        region: command.s3.region,
+        bucket: command.s3.bucket,
+        prefix: command.s3.prefix
       },
       ({ progress, total }) => {
-        ToastLayer.showProgress(command.progressMessage, (progress / total) * 100, taskId);
+        ToastLayer.showProgress(command.messages.progress, (progress / total) * 100, taskId);
       }
     );
 
-    ToastLayer.showSuccess(command.successMessage);
+    ToastLayer.showSuccess(command.messages.success);
   } catch (error) {
     console.error(error);
-    ToastLayer.showError(command.failureMessage);
+    ToastLayer.showError(command.messages.failure);
   } finally {
     ToastLayer.hideProgress(taskId);
+  }
+
+  // Clean up the temp folder
+  filesystem.removeDirRecursive(tempDir);
+
+  // NOTE: Would be nice to clean up the events in here, so "complete" is like
+  // "finally". And then also have "success" and "failure".
+
+  // Notify that the process is done
+  event.source.postMessage({
+    kind: "upload-aws-s3",
+    id: taskId,
+    status: "complete",
+  }, { targetOrigin: event.origin })
+
+  // Execute complete event
+  if (Array.isArray(command?.events?.complete)) {
+    for (const event of command.events.complete) {
+      if (event.kind === "fetch") {
+        await fetch(event.resource, event.options);
+      } else {
+        console.error("invalid event type", event);
+      }
+    }
   }
 }
 
@@ -106,7 +141,7 @@ function uploadDirectory(
         }
       }
     }
-debugger
+
     const uploader = client.uploadDir({
       localDir: options.localDir,
       deleteRemoved: true,
