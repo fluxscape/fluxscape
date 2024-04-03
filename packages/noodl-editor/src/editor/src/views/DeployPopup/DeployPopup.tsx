@@ -62,14 +62,6 @@ export function DeployPopup(props: DeployPopupProps) {
 }
 
 function FluxscapeDeployTab() {
-  const { createFrame, moveFrame } = usePluginContext();
-
-  const pluginRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    createFrame('fluxscape-hosting', 'http://192.168.0.33:8574/');
-    moveFrame('fluxscape-hosting', pluginRef.current);
-  }, [pluginRef.current]);
-
-  return <div ref={pluginRef}></div>;
+  // Preview URL:  'http://192.168.0.33:8574/'
+  return <iframe src="https://portal.fluxscape.io" style={{ width: "100%", height: "50vh", borderStyle: "none" }} />;
 }
