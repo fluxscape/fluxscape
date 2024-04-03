@@ -13,6 +13,7 @@ import { ExperimentalFlag, ExperimentalFlagVariant } from '@noodl-core-ui/compon
 import { Text, TextSize } from '@noodl-core-ui/components/typography/Text';
 
 import { OpenAiSection } from './sections/OpenAiSection';
+import { FluxscapeSection } from './sections/FluxscapeSection';
 
 export function EditorSettingsPanel() {
   // @ts-expect-error Model is yeah, not great!
@@ -54,6 +55,7 @@ export function EditorSettingsPanel() {
             </Box>
           </CollapsableSection>
           <OpenAiSection />
+          <FluxscapeSection />
         </>
       )}
     </BasePanel>
