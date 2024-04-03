@@ -72,6 +72,14 @@ import { getCurrentPlatform } from '../helper';
   // NOTE: Getting error "Cannot set properties of null (setting 'dev')" here,
   //       It basically means that some package is not relative to this path.
   console.log("--- Run 'npm install' ...");
+  
+  if (platform === "darwin") {
+    execSync(`npm install electron-notarize`, {
+      stdio: 'inherit',
+      env: process.env
+    })
+  }
+
   execSync(`npm install --arch=${arch} --scope noodl-editor`, {
     stdio: 'inherit',
     env: process.env

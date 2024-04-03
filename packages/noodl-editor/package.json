@@ -15,17 +15,30 @@
     "test:ci": "webpack-cli --config=webpackconfigs/webpack.test-ci.js && electron test.js"
   },
   "build": {
-    "appId": "noodl.net.noodl-editor",
+    "appId": "fluxscape.net.fluxscape",
+    "afterSign": "./build/macos-notarize.js",
+    "mac": {
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "LSMultipleInstancesProhibited": true,
+        "NSMicrophoneUsageDescription": "Allow Fluxscape apps that you create and run to access the microphone?",
+        "NSCameraUsageDescription": "Allow Fluxscape apps that you create and run to access the camera?"
+      }
+    },
     "win": {
       "target": "nsis"
     },
     "nsis": {
-      "guid": "noodl.net.noodl-editor"
+      "guid": "fluxscape.net.fluxscape"
+    },
+    "linux": {
+      "target": "deb"
     },
     "protocols": {
-      "name": "noodl",
+      "name": "fluxscape",
       "schemes": [
-        "noodl"
+        "fluxscape"
       ]
     },
     "npmRebuild": false,
