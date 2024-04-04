@@ -12,7 +12,7 @@ module.exports = async function (params) {
     return;
   }
 
-  const appId = 'noodl.net.noodl';
+  const appId = 'fluxscape.net.fluxscape';
 
   const appPath = path.join(params.appOutDir, `${params.packager.appInfo.productFilename}.app`);
   if (!fs.existsSync(appPath)) {
