@@ -168,12 +168,12 @@ class CloudStore {
       return;
     }
 
-    if (options.where) args.push('match=' + encodeURIComponent(JSON.stringify(options.where)));
+    if (options.where) args.push('$match=' + encodeURIComponent(JSON.stringify(options.where)));
     if (options.limit) args.push('limit=' + options.limit);
     if (options.skip) args.push('skip=' + options.skip);
 
     const grouping = {
-      objectId: null
+      _id: null
     };
 
     Object.keys(options.group).forEach((k) => {
@@ -188,7 +188,7 @@ class CloudStore {
       grouping[k] = _g;
     });
 
-    args.push('group=' + JSON.stringify(grouping));
+    args.push('$group=' + JSON.stringify(grouping));
 
     this._makeRequest('/aggregate/' + options.collection + (args.length > 0 ? '?' + args.join('&') : ''), {
       success: function (response) {
