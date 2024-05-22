@@ -41,7 +41,7 @@ export default class SchemaHandler {
         return; // No project broker
       }
 
-      CloudService.instance.backend.fetch().then((collection) => {
+      CloudService.instance.backend.fetch(ProjectModel.instance).then((collection) => {
         // Find by the Url / Endpoint and app id
         let environment = collection.find((b) => {
           return b.url === activeBroker.endpoint && b.appId === activeBroker.appId;

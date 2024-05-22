@@ -84,7 +84,7 @@ export function CloudServiceCard({
         <div className={css['MetaBar']}>
           <div className={classNames([css['TypeDisplay'], isEditorEnvironment && css['is-editor-environment']])}>
             <Icon icon={IconName.CloudCheck} size={IconSize.Small} UNSAFE_style={{ marginRight: 4 }} />
-            {'Self hosted '}
+            {environment.typeDisplayName + ' '}
             {errorMessage && <span className={css['ArchivedDisplay']}>({errorMessage})</span>}
             {isEditorEnvironment && <span className={css['UsedInEditorDisplay']}>(Used in editor)</span>}
           </div>
