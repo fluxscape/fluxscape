@@ -1,13 +1,16 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Keybindings } from '@noodl-constants/Keybindings';
 import { Environment } from '@noodl-models/CloudServices';
 import ParseDashboardServer from '@noodl-utils/parsedashboardserver';
 
 import { Icon, IconName, IconSize } from '@noodl-core-ui/components/common/Icon';
 import { IconButton, IconButtonState, IconButtonVariant } from '@noodl-core-ui/components/inputs/IconButton';
 import { PrimaryButton, PrimaryButtonSize, PrimaryButtonVariant } from '@noodl-core-ui/components/inputs/PrimaryButton';
+import { DialogRenderDirection } from '@noodl-core-ui/components/layout/BaseDialog';
 import { Collapsible } from '@noodl-core-ui/components/layout/Collapsible';
+import { Tooltip } from '@noodl-core-ui/components/popups/Tooltip';
 import { Label, LabelSpacingSize } from '@noodl-core-ui/components/typography/Label';
 import { Text, TextType } from '@noodl-core-ui/components/typography/Text';
 
@@ -118,12 +121,18 @@ export function CloudServiceCard({
           </div>
 
           {isEditorEnvironment && (
-            <PrimaryButton
-              label="Open dashboard"
-              size={PrimaryButtonSize.Small}
-              onClick={onDashboardClicked}
-              isGrowing
-            />
+            <Tooltip
+              content="Open the Parse Dashboard"
+              fineType={`${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD.label} in window or ${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD_BROWSER.label} to open in browsers`}
+              renderDirection={DialogRenderDirection.Below}
+            >
+              <PrimaryButton
+                label="Open dashboard"
+                size={PrimaryButtonSize.Small}
+                onClick={onDashboardClicked}
+                isGrowing
+              />
+            </Tooltip>
           )}
         </div>
       </div>
