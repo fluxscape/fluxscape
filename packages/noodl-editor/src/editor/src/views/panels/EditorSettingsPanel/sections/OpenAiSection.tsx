@@ -45,7 +45,7 @@ export function OpenAiSection() {
 
   return (
     <CollapsableSection title="Noodl AI (Beta)">
-      <Box hasXSpacing>
+      <Box hasXSpacing hasBottomSpacing={5}>
         <VStack>
           <PropertyPanelRow label="Version" isChanged={false}>
             <PropertyPanelSelectInput
