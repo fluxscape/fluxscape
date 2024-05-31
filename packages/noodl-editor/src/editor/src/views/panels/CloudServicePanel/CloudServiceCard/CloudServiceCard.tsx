@@ -123,7 +123,10 @@ export function CloudServiceCard({
           {isEditorEnvironment && (
             <Tooltip
               content="Open the Parse Dashboard"
-              fineType={`${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD.label} in window or ${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD_BROWSER.label} to open in browsers`}
+              fineType={[
+                `In Window: ${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD.label}`,
+                `In Browser: ${Keybindings.CLOUD_SERVICE_OPEN_DASHBOARD_BROWSER.label}`
+              ]}
               renderDirection={DialogRenderDirection.Below}
             >
               <PrimaryButton
