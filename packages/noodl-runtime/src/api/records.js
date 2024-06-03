@@ -104,6 +104,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async fetch(objectOrId, options) {
+      if (typeof objectOrId === 'undefined') return Promise.reject(new Error("'objectOrId' is undefined."));
       if (typeof objectOrId !== 'string') objectOrId = objectOrId.getId();
       const className = (options ? options.className : undefined) || (modelScope || Model).get(objectOrId)._class;
 
@@ -126,6 +127,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async increment(objectOrId, properties, options) {
+      if (typeof objectOrId === 'undefined') return Promise.reject(new Error("'objectOrId' is undefined."));
       if (typeof objectOrId !== 'string') objectOrId = objectOrId.getId();
       const className = (options ? options.className : undefined) || (modelScope || Model).get(objectOrId)._class;
 
@@ -149,6 +151,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async save(objectOrId, properties, options) {
+      if (typeof objectOrId === 'undefined') return Promise.reject(new Error("'objectOrId' is undefined."));
       if (typeof objectOrId !== 'string') objectOrId = objectOrId.getId();
       const className = (options ? options.className : undefined) || (modelScope || Model).get(objectOrId)._class;
 
@@ -197,6 +200,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async delete(objectOrId, options) {
+      if (typeof objectOrId === 'undefined') return Promise.reject(new Error("'objectOrId' is undefined."));
       if (typeof objectOrId !== 'string') objectOrId = objectOrId.getId();
       const className = (options ? options.className : undefined) || (modelScope || Model).get(objectOrId)._class;
 
@@ -265,7 +269,7 @@ function createRecordsAPI(modelScope) {
             resolve();
           },
           error: (err) => {
-            reject(Error(rr || 'Failed to add relation.'));
+            reject(Error(err || 'Failed to add relation.'));
           }
         });
       });
