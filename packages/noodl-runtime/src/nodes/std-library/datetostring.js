@@ -59,6 +59,7 @@ const DateToStringNode = {
       const month = ('0' + (t.getMonth() + 1)).slice(-2);
       const monthShort = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(t);
       const year = t.getFullYear();
+      const yearShort = year.toString().substring(2);
       const hours = ('0' + t.getHours()).slice(-2);
       const minutes = ('0' + t.getMinutes()).slice(-2);
       const seconds = ('0' + t.getSeconds()).slice(-2);
@@ -68,6 +69,7 @@ const DateToStringNode = {
         .replace(/\{month\}/g, month)
         .replace(/\{monthShort\}/g, monthShort)
         .replace(/\{year\}/g, year)
+        .replace(/\{yearShort\}/g, yearShort)
         .replace(/\{hours\}/g, hours)
         .replace(/\{minutes\}/g, minutes)
         .replace(/\{seconds\}/g, seconds);
