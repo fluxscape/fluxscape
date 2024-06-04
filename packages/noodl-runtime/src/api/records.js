@@ -12,6 +12,7 @@ function createRecordsAPI(modelScope) {
 
   return {
     async query(className, query, options) {
+      if (typeof className === "undefined") throw new Error("'className' is undefined");
       return new Promise((resolve, reject) => {
         cloudstore().query({
           collection: className,
@@ -39,6 +40,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async count(className, query) {
+      if (typeof className === "undefined") throw new Error("'className' is undefined");
       return new Promise((resolve, reject) => {
         cloudstore().count({
           collection: className,
@@ -60,6 +62,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async distinct(className, property, query) {
+      if (typeof className === "undefined") throw new Error("'className' is undefined");
       return new Promise((resolve, reject) => {
         cloudstore().distinct({
           collection: className,
@@ -82,6 +85,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async aggregate(className, group, query) {
+      if (typeof className === "undefined") throw new Error("'className' is undefined");
       return new Promise((resolve, reject) => {
         cloudstore().aggregate({
           collection: className,
@@ -179,6 +183,7 @@ function createRecordsAPI(modelScope) {
     },
 
     async create(className, properties, options) {
+      if (typeof className === "undefined") throw new Error("'className' is undefined");
       return new Promise((resolve, reject) => {
         cloudstore().create({
           collection: className,
