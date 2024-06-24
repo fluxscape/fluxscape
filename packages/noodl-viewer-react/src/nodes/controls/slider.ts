@@ -11,7 +11,6 @@ const RangeNode = {
   name: 'net.noodl.controls.range',
   displayNodeName: 'Slider',
   docs: 'https://docs.noodl.net/nodes/ui-controls/slider',
-  allowChildren: false,
   noodlNodeAsProp: true,
   connectionPanel: {
     groupPriority: [
