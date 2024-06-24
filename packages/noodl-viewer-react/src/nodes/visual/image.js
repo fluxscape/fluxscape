@@ -27,6 +27,7 @@ const ImageNode = {
     ]
   },
   initialize() {
+    this.props.attrs = {};
     this.props.default = '';
   },
   getReactComponent() {
@@ -84,6 +85,16 @@ const ImageNode = {
       allowVisualStates: true,
       set(url) {
         this.props.dom.src = getAbsoluteUrl(url);
+        this.forceUpdate();
+      }
+    },
+    testId: {
+      index: 100009,
+      displayName: 'Test ID Attribute',
+      group: 'Advanced HTML',
+      type: 'string',
+      set(value) {
+        this.props.attrs["data-testid"] = value;
         this.forceUpdate();
       }
     }
