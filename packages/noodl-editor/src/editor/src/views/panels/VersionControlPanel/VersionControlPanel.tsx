@@ -199,6 +199,7 @@ function BaseVersionControlPanel() {
 
 export function VersionControlPanel() {
   const [git, setGit] = useState<Git>(null);
+  const [state, setState] = useState<'loading' | 'loaded' | 'not-git'>('loading');
 
   async function createGit() {
     const gitClient = new Git(mergeProject);
@@ -206,12 +207,18 @@ export function VersionControlPanel() {
     setGit(gitClient);
   }
 
-  const isGitProject = git === null ? LocalProjectsModel.instance.isGitProject(ProjectModel.instance) : true;
   useEffect(() => {
-    if (isGitProject) {
-      createGit();
-    }
-  }, [isGitProject]);
+    LocalProjectsModel.instance
+      .isGitProject(ProjectModel.instance)
+      .then(async (isGitProject) => {
+        if (isGitProject) {
+          await createGit();
+          setState('loaded');
+        } else {
+          setState('not-git');
+        }
+      });
+  }, []);
 
   async function setupGit() {
     const gitClient = new Git(mergeProject);
@@ -220,7 +227,7 @@ export function VersionControlPanel() {
     setGit(gitClient);
   }
 
-  if (git === null && !isGitProject) {
+  if (git === null && state === 'not-git') {
     return (
       <BasePanel isFill title="Version Control">
         <Box hasXSpacing hasYSpacing>
