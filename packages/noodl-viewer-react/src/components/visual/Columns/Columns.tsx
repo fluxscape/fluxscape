@@ -117,7 +117,10 @@ export function Columns(props: ColumnsProps) {
 
   // ForEachCompoent breaks the layout but is needed to send onMount/onUnmount
   if (!Array.isArray(props.children)) {
-    children = [props.children];
+    // @ts-expect-error props.children.type is any
+    if (props.children.type !== ForEachComponent) {
+      children = [props.children]
+    }
   } else {
     children = props.children.filter((child) => child.type !== ForEachComponent);
     forEachComponent = props.children.find((child) => child.type === ForEachComponent);
