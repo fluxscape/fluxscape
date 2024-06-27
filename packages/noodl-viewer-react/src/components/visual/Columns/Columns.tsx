@@ -7,6 +7,8 @@ export interface ColumnsProps extends Noodl.ReactProps {
   marginX: string;
   marginY: string;
 
+  attrs: React.Attributes;
+
   justifyContent: 'flex-start' | 'flex-end' | 'center';
   direction: 'row' | 'column';
   minWidth: string;
@@ -123,6 +125,7 @@ export function Columns(props: ColumnsProps) {
 
   return (
     <div
+      {...props.attrs}
       className={['columns-container', props.className].join(' ')}
       ref={containerRef}
       style={{
