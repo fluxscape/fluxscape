@@ -32,12 +32,15 @@ class CloudStore {
 
   _initCloudServices() {
     _collections = undefined; // clear collection cache, so it's refetched
-    const cloudServices = NoodlRuntime.instance.getMetaData('cloudservices');
 
+    const cloudServices = NoodlRuntime.instance.getMetaData('cloudservices');
     if (cloudServices) {
       this.appId = cloudServices.appId;
       this.endpoint = cloudServices.endpoint;
     }
+
+    const dbVersionMajor = NoodlRuntime.instance.getMetaData('dbVersionMajor');
+    this.dbVersionMajor = dbVersionMajor;
   }
 
   on() {
@@ -168,13 +171,10 @@ class CloudStore {
       return;
     }
 
-    if (options.where) args.push('match=' + encodeURIComponent(JSON.stringify(options.where)));
     if (options.limit) args.push('limit=' + options.limit);
     if (options.skip) args.push('skip=' + options.skip);
 
-    const grouping = {
-      objectId: null
-    };
+    const grouping = {};
 
     Object.keys(options.group).forEach((k) => {
       const _g = {};
@@ -188,7 +188,20 @@ class CloudStore {
       grouping[k] = _g;
     });
 
-    args.push('group=' + JSON.stringify(grouping));
+    // I don't know which version the API was changed, lets just say above 4 for now.
+    if (this.dbVersionMajor && this.dbVersionMajor > 4) {
+      grouping._id = null;
+      
+      if (options.where) args.push('$match=' + encodeURIComponent(JSON.stringify(options.where)));
+
+      args.push('$group=' + JSON.stringify(grouping));
+    } else {
+      grouping.objectId = null;
+      
+      if (options.where) args.push('match=' + encodeURIComponent(JSON.stringify(options.where)));
+
+      args.push('group=' + JSON.stringify(grouping));
+    }
 
     this._makeRequest('/aggregate/' + options.collection + (args.length > 0 ? '?' + args.join('&') : ''), {
       success: function (response) {
