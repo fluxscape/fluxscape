@@ -1,4 +1,5 @@
 import { CloudService } from '@noodl-models/CloudServices';
+import { ProjectModel } from '@noodl-models/projectmodel';
 import SchemaModel from '@noodl-models/schemamodel';
 
 class FormCollection {
@@ -193,7 +194,7 @@ export default class CloudFormation {
   }) {
     // Create new cloud services if needed
     if (options.cloudServices.id === undefined) {
-      CloudService.instance.backend.fetch().then((collection) => {
+      CloudService.instance.backend.fetch(ProjectModel.instance).then((collection) => {
         // TODO(OS): Cloud formation Cloud Service
         // // Make sure we have a unique name for the cloud services
         // const orgName = options.cloudServices.name;

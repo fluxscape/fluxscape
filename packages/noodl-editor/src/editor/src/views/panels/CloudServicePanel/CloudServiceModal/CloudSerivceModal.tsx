@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { FeedbackType } from '@noodl-constants/FeedbackType';
 import { CloudService, Environment } from '@noodl-models/CloudServices';
@@ -12,6 +12,7 @@ import { HStack, VStack } from '@noodl-core-ui/components/layout/Stack';
 import { Text } from '@noodl-core-ui/components/typography/Text';
 
 import { ToastLayer } from '../../../ToastLayer';
+import { ProjectModel } from '@noodl-models/projectmodel';
 
 export interface CloudServiceModalProps {
   isVisible: boolean;
@@ -60,7 +61,7 @@ function AsSelfHosted({
     }
 
     CloudService.instance.backend
-      .update({
+      .update(ProjectModel.instance, {
         id: environment.id,
         name,
         description,
@@ -70,7 +71,7 @@ function AsSelfHosted({
       })
       .then(() => {
         ToastLayer.showSuccess(`Updated Cloud Service`);
-        CloudService.instance.backend.fetch();
+        CloudService.instance.backend.fetch(ProjectModel.instance);
       })
       .catch(() => {
         ToastLayer.showError(`Failed to update Cloud Service`);
