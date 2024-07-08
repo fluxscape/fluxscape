@@ -55,6 +55,7 @@ export function DeployPopup(props: DeployPopupProps) {
         onClose={props.onClose}
         hasArrow
         isLockingScroll
+        alwaysMounted
       >
         <DeployPopupChild />
       </BaseDialog>
