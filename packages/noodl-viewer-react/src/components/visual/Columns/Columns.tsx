@@ -132,6 +132,7 @@ export function Columns(props: ColumnsProps) {
       className={['columns-container', props.className].join(' ')}
       ref={containerRef}
       style={{
+        visibility: containerWidth === null ? "hidden" : "visible",
         marginTop: parseFloat(props.marginY) * -1,
         marginLeft: parseFloat(props.marginX) * -1,
         display: 'flex',
