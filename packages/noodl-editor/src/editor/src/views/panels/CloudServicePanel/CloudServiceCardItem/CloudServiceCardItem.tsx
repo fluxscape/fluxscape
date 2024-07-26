@@ -5,6 +5,7 @@ import { CloudService, Environment } from '@noodl-models/CloudServices';
 import { ToastType } from '../../../ToastLayer/components/ToastCard';
 import { CloudServiceCard } from '../CloudServiceCard';
 import { useCloudServiceContext } from '../CloudServicePanel.context';
+import { ProjectModel } from '@noodl-models/projectmodel';
 
 export interface CloudServiceCardItemProps {
   environment: Environment;
@@ -20,7 +21,7 @@ export function CloudServiceCardItem({ environment, deleteEnvironment }: CloudSe
   async function onDelete() {
     await deleteEnvironment();
     await runActivity('Deleting cloud service...', async () => {
-      const response: boolean = await CloudService.instance.backend.delete(environment.id);
+      const response: boolean = await CloudService.instance.backend.delete(ProjectModel.instance, environment.id);
       return {
         type: ToastType.Success,
         message: 'Cloud service deleted'
