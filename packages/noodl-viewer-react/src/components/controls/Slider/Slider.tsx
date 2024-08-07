@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Layout from '../../../layout';
 import Utils from '../../../nodes/controls/utils';
-import { Noodl } from '../../../types';
+import { Noodl, Slot } from '../../../types';
 
 export interface SliderProps extends Noodl.ReactProps {
   _nodeId: string;
@@ -26,6 +26,8 @@ export interface SliderProps extends Noodl.ReactProps {
 
   onClick: () => void;
   updateOutputValue: (value: number) => void;
+
+  children: Slot;
 }
 
 function _styleTemplate(_class: string, props: SliderProps) {
@@ -171,7 +173,9 @@ export function Slider(props: SliderProps) {
   return (
     <div style={divStyle}>
       <div style={trackStyle} />
-      <div style={thumbStyle} />
+      <div style={thumbStyle}>
+        {props.children}
+      </div>
       <input
         className={className}
         {...Utils.controlEvents(props)}
