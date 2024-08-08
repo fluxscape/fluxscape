@@ -4,7 +4,7 @@
   "description": "Node-Based App Builder for Scalability & Rapid Development, a fork of Noodl",
   "author": "Fluxscape <contact@fluxscape.io>",
   "homepage": "https://fluxscape.io",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "src/main/main.js",
   "scripts": {
     "build": "npx ts-node -P ./tsconfig.build.json ./scripts/build.ts",
