@@ -1,4 +1,6 @@
 import { NodeGraphContextProvider } from '@noodl-contexts/NodeGraphContext/NodeGraphContext';
+import { NodeReferencesContextProvider } from '@noodl-contexts/NodeReferencesContext';
+import { PluginContextProvider } from '@noodl-contexts/PluginContext';
 import { ProjectDesignTokenContextProvider } from '@noodl-contexts/ProjectDesignTokenContext';
 import { useKeyboardCommands } from '@noodl-hooks/useKeyboardCommands';
 import { useModel } from '@noodl-hooks/useModel';
@@ -43,7 +45,6 @@ import { BaseWindow } from '../../views/windows/BaseWindow';
 import { whatsnewRender } from '../../whats-new';
 import { IRouteProps } from '../AppRoute';
 import { useSetupSettings } from './useSetupSettings';
-import { PluginContextProvider } from '@noodl-contexts/PluginContext';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ImportOverwritePopupTemplate = require('../../templates/importoverwritepopup.html');
@@ -223,28 +224,30 @@ export function EditorPage({ route }: EditorPageProps) {
 
   return (
     <NodeGraphContextProvider>
-      <ProjectDesignTokenContextProvider>
-        <PluginContextProvider>
-          <BaseWindow>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <>
-                <FrameDivider
-                  first={<SidePanel />}
-                  second={<ErrorBoundary>{Boolean(Document) && <Document />}</ErrorBoundary>}
-                  sizeMin={200}
-                  size={frameDividerSize}
-                  horizontal
-                  onSizeChanged={setFrameDividerSize}
-                />
+      <NodeReferencesContextProvider>
+        <ProjectDesignTokenContextProvider>
+          <PluginContextProvider>
+            <BaseWindow>
+              {isLoading ? (
+                <ActivityIndicator />
+              ) : (
+                <>
+                  <FrameDivider
+                    first={<SidePanel />}
+                    second={<ErrorBoundary>{Boolean(Document) && <Document />}</ErrorBoundary>}
+                    sizeMin={200}
+                    size={frameDividerSize}
+                    horizontal
+                    onSizeChanged={setFrameDividerSize}
+                  />
 
-                {Boolean(lesson) && <Frame instance={lesson} isContentSize isFitWidth />}
-              </>
-            )}
-          </BaseWindow>
-        </PluginContextProvider>
-      </ProjectDesignTokenContextProvider>
+                  {Boolean(lesson) && <Frame instance={lesson} isContentSize isFitWidth />}
+                </>
+              )}
+            </BaseWindow>
+          </PluginContextProvider>
+        </ProjectDesignTokenContextProvider>
+      </NodeReferencesContextProvider>
     </NodeGraphContextProvider>
   );
 }
