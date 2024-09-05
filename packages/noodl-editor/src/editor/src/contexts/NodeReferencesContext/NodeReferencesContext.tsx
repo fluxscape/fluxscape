@@ -8,7 +8,7 @@ import { ProjectModel } from '@noodl-models/projectmodel';
 import { EventDispatcher } from '../../../../shared/utils/EventDispatcher';
 
 export type NodeReference = {
-  type: NodeLibraryNodeType;
+  type: NodeLibraryNodeType | undefined;
   displayName: string;
   referenaces: {
     displayName: string;
@@ -24,6 +24,14 @@ export interface NodeReferencesContext {
 const NodeReferencesContext = createContext<NodeReferencesContext>({
   nodeReferences: [],
 });
+
+// Since all the editor code is not written in React we need a way to be able to
+// access this information outside of React too.
+let HACK_nodeReferences: NodeReference[] = [];
+export function HACK_findNodeReference(componentName: string): NodeReference | undefined {
+  return HACK_nodeReferences.find(x => x.type?.fullName === componentName);
+}
+
 
 export interface NodeReferencesContextProps {
   children: Slot;
@@ -89,6 +97,7 @@ export function NodeReferencesContextProvider({ children }: NodeReferencesContex
         }))
         .sort((a, b) => b.referenaces.length - a.referenaces.length);
 
+      HACK_nodeReferences = results;
       setNodeReferences(results);
     }
 
