@@ -192,8 +192,7 @@ function setup(context, graphModel) {
               enums: pages.map((p) => ({
                 label: p.label,
                 value: p.id
-              })),
-              allowEditOnly: true
+              }))
             },
             group: 'General',
             displayName: 'Target Page',
