@@ -175,6 +175,7 @@ const PageStack = {
     topPageName: {
       type: 'string',
       displayName: 'Top Component Name',
+      group: 'General',
       get() {
         return this._internal.topPageName;
       }
@@ -182,6 +183,7 @@ const PageStack = {
     stackDepth: {
       type: 'number',
       displayName: 'Stack Depth',
+      group: 'General',
       get() {
         return this._internal.stackDepth;
       }
