@@ -1,25 +1,21 @@
 import { JSONStorage } from '@noodl/platform';
 
-import { CreateEnvironment, CreateEnvironmentRequest, UpdateEnvironmentRequest } from '@noodl-models/CloudServices';
+import {
+  CreateEnvironment,
+  CreateEnvironmentRequest,
+  EnvironmentDataFormat,
+  ICloudServiceProvider,
+  UpdateEnvironmentRequest
+} from '@noodl-models/CloudServices';
+import { ProjectModel } from '@noodl-models/projectmodel';
 
-/** The data format is separated from our internal model. */
-export type EnvironmentDataFormat = {
-  enabled: boolean;
-  id: string;
-  name: string;
-  description: string;
-  masterKey: string;
-  appId: string;
-  endpoint: string;
-};
-
-export class ExternalCloudService {
-  async list(): Promise<EnvironmentDataFormat[]> {
+export class GlobalCloudService implements ICloudServiceProvider {
+  async list(_project: ProjectModel): Promise<EnvironmentDataFormat[]> {
     const local = await JSONStorage.get('externalBrokers');
     return local.brokers || [];
   }
 
-  async create(options: CreateEnvironmentRequest): Promise<CreateEnvironment> {
+  async create(_project: ProjectModel, options: CreateEnvironmentRequest): Promise<CreateEnvironment> {
     const id = `${options.url}-${options.appId}`;
 
     const newBroker: EnvironmentDataFormat = {
@@ -44,7 +40,7 @@ export class ExternalCloudService {
     };
   }
 
-  async update(options: UpdateEnvironmentRequest): Promise<boolean> {
+  async update(_project: ProjectModel, options: UpdateEnvironmentRequest): Promise<boolean> {
     const local = await JSONStorage.get('externalBrokers');
     const brokers: EnvironmentDataFormat[] = local.brokers || [];
 
@@ -63,7 +59,7 @@ export class ExternalCloudService {
     return true;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(_project: ProjectModel, id: string): Promise<boolean> {
     const local = await JSONStorage.get('externalBrokers');
     const brokers: EnvironmentDataFormat[] = local.brokers || [];
 
@@ -77,27 +73,5 @@ export class ExternalCloudService {
     // Save the list
     await JSONStorage.set('externalBrokers', { brokers });
     return true;
-  }
-}
-
-export class Environment {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-  masterKeyUpdatedAt: string;
-  masterKey: string;
-  appId: string;
-  url: string;
-
-  constructor(item: EnvironmentDataFormat) {
-    this.id = item.id;
-    this.name = item.name;
-    this.description = item.description;
-    this.createdAt = '';
-    this.masterKeyUpdatedAt = '';
-    this.masterKey = item.masterKey;
-    this.appId = item.appId;
-    this.url = item.endpoint;
   }
 }
