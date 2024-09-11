@@ -482,7 +482,12 @@ declare namespace Noodl {
   const Records: RecordsApi;
 
   interface CurrentUserObject {
-    UserId: string;
+    id: string;
+    email: string;
+    emailVerified: boolean;
+    username: string;
+
+    Properties: unknown;
 
     /**
      * Log out the current user and terminate the session.
