@@ -203,7 +203,7 @@ function convertFilterOp(filter, options) {
     const className = options.className || (options.modelScope || Model).get(modelId)?._class;
     if (typeof className === 'undefined') {
       // Either the pointer is loaded as an object or we allow passing in the className.
-      return options.error('Must the pointer or include className');
+      return options.error('Must preload the Pointer or include className');
     }
 
     res['$relatedTo'] = {
