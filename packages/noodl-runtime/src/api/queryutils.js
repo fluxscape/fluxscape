@@ -165,7 +165,6 @@ function _value(v) {
  *
  * @param {Record<string, unknown>} filter
  * @param {{
- *   className?: string;
  *   collectionName?: string;
  *   modelScope?: unknown;
  *   error: (error: string) => void;
@@ -200,7 +199,7 @@ function convertFilterOp(filter, options) {
       return options.error('Must provide key in relatedTo filter');
     }
 
-    const className = options.className || (options.modelScope || Model).get(modelId)?._class;
+    const className = filter['relatedTo']['className'] || (options.modelScope || Model).get(modelId)?._class;
     if (typeof className === 'undefined') {
       // Either the pointer is loaded as an object or we allow passing in the className.
       return options.error('Must preload the Pointer or include className');
