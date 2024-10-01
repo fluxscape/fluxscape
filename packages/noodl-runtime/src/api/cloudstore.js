@@ -73,8 +73,9 @@ class CloudStore {
       xhr.open(options.method || 'GET', this.endpoint + path, true);
 
       xhr.setRequestHeader('X-Parse-Application-Id', this.appId);
-      if (typeof _noodl_cloudservices !== 'undefined')
+      if (typeof _noodl_cloudservices !== 'undefined') {
         xhr.setRequestHeader('X-Parse-Master-Key', _noodl_cloudservices.masterKey);
+      }
 
       // Check for current users
       var _cu = localStorage['Parse/' + this.appId + '/currentUser'];
@@ -191,13 +192,13 @@ class CloudStore {
     // I don't know which version the API was changed, lets just say above 4 for now.
     if (this.dbVersionMajor && this.dbVersionMajor > 4) {
       grouping._id = null;
-      
+
       if (options.where) args.push('$match=' + encodeURIComponent(JSON.stringify(options.where)));
 
       args.push('$group=' + JSON.stringify(grouping));
     } else {
       grouping.objectId = null;
-      
+
       if (options.where) args.push('match=' + encodeURIComponent(JSON.stringify(options.where)));
 
       args.push('group=' + JSON.stringify(grouping));
@@ -257,11 +258,22 @@ class CloudStore {
     });
   }
 
+  /**
+   *
+   * @param {{
+   *    objectId: string;
+   *    collection: string;
+   *    include?: string[] | string;
+   *    success: (data: unknown) => void;
+   *    error: (error: unknown) => void;
+   * }} options
+   */
   fetch(options) {
     const args = [];
 
-    if (options.include)
+    if (options.include) {
       args.push('include=' + (Array.isArray(options.include) ? options.include.join(',') : options.include));
+    }
 
     this._makeRequest(
       '/classes/' + options.collection + '/' + options.objectId + (args.length > 0 ? '?' + args.join('&') : ''),
@@ -433,6 +445,8 @@ class CloudStore {
    *    file: {
    *      name: string;
    *    }
+   *    success: (data: unknown) => void;
+   *    error: (error: unknown) => void;
    * }} options
    */
   deleteFile(options) {
@@ -563,21 +577,26 @@ function _deserializeJSON(data, type, modelScope) {
 }
 
 function _fromJSON(item, collectionName, modelScope) {
-  const m = (modelScope || Model).get(item.objectId);
-  m._class = collectionName;
+  const modelStore = modelScope || Model;
 
-  if (collectionName !== undefined && CloudStore._collections[collectionName] !== undefined)
-    var schema = CloudStore._collections[collectionName].schema;
+  const model = modelStore.get(item.objectId);
+  model._class = collectionName;
 
-  for (var key in item) {
-    if (key === 'objectId' || key === 'ACL') continue;
-
-    var _type = schema && schema.properties && schema.properties[key] ? schema.properties[key].type : undefined;
-
-    m.set(key, _deserializeJSON(item[key], _type, modelScope));
+  let schema = undefined;
+  if (collectionName !== undefined && CloudStore._collections[collectionName] !== undefined) {
+    schema = CloudStore._collections[collectionName].schema;
   }
 
-  return m;
+  for (const key in item) {
+    if (key === 'objectId' || key === 'ACL') {
+      continue;
+    }
+
+    const _type = schema && schema.properties && schema.properties[key] ? schema.properties[key].type : undefined;
+    model.set(key, _deserializeJSON(item[key], _type, modelScope));
+  }
+
+  return model;
 }
 
 CloudStore._fromJSON = _fromJSON;
