@@ -5,9 +5,14 @@ const navigation = {
   async showPopup(componentPath, params) {
     return new Promise((resolve) => {
       navigation._noodlRuntime.context.showPopup(componentPath, params, {
+        senderNode: this.nodeScope.componentOwner,
+        /**
+         * @param {string | undefined} action
+         * @param {*} results
+         */
         onClosePopup: (action, results) => {
           resolve({
-            action: action.replace('closeAction-', ''),
+            action: (action || '').replace('closeAction-', ''),
             parameters: results
           });
         }
