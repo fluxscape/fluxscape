@@ -51,8 +51,9 @@ const ClosePopupNode = {
       }
     },
     close: function () {
-      if (this._internal.closeCallback)
+      if (this._internal.closeCallback) {
         this._internal.closeCallback(this._internal.closeAction, this._internal.resultValues);
+      }
     },
     closeActionTriggered: function (name) {
       this._internal.closeAction = name;
