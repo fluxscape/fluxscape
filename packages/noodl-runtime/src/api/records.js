@@ -112,7 +112,9 @@ function createRecordsAPI(modelScope) {
      * @param {string | { getId(): string; }} objectOrId
      * @param {{
      *    className: string;
+     *    keys?: string[] | string;
      *    include?: string[] | string;
+     *    excludeKeys?: string[] | string;
      * }} options
      * @returns {Promise<unknown>}
      */
@@ -129,7 +131,9 @@ function createRecordsAPI(modelScope) {
         cloudstore().fetch({
           collection: className,
           objectId: objectOrId,
-          include: options ? options.include : undefined,
+          keys: options?.keys,
+          include: options?.include,
+          excludeKeys: options?.excludeKeys,
           success: function (response) {
             const record = cloudstore()._fromJSON(response, className);
             resolve(record);

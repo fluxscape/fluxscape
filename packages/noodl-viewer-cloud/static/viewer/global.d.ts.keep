@@ -227,6 +227,9 @@ declare namespace Noodl {
       objectOrId: string | { getId(): string; },
       options?: {
         className?: RecordClassName;
+        keys?: string[] | string;
+        include?: string[] | string;
+        excludeKeys?: string[] | string;
       }
     ): Promise<any>;
 

@@ -263,7 +263,9 @@ class CloudStore {
    * @param {{
    *    objectId: string;
    *    collection: string;
+   *    keys?: string[] | string;
    *    include?: string[] | string;
+   *    excludeKeys?: string[] | string;
    *    success: (data: unknown) => void;
    *    error: (error: unknown) => void;
    * }} options
@@ -273,6 +275,16 @@ class CloudStore {
 
     if (options.include) {
       args.push('include=' + (Array.isArray(options.include) ? options.include.join(',') : options.include));
+    }
+
+    if (options.keys) {
+      args.push('keys=' + (Array.isArray(options.keys) ? options.keys.join(',') : options.keys));
+    }
+
+    if (options.excludeKeys) {
+      args.push(
+        'excludeKeys=' + (Array.isArray(options.excludeKeys) ? options.excludeKeys.join(',') : options.excludeKeys)
+      );
     }
 
     this._makeRequest(
