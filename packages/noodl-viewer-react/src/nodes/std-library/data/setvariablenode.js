@@ -1,11 +1,9 @@
 'use strict';
 
-const { Node } = require('@noodl/runtime');
-
 const Model = require('@noodl/runtime/src/model');
 const Collection = require('@noodl/runtime/src/collection');
 
-var SetVariableNodeDefinition = {
+const SetVariableNodeDefinition = {
   name: 'Set Variable',
   docs: 'https://docs.noodl.net/nodes/data/variable/set-variable',
   category: 'Data',
@@ -15,6 +13,13 @@ var SetVariableNodeDefinition = {
     var internal = this._internal;
 
     internal.variablesModel = Model.get('--ndl--global-variables');
+  },
+  getInspectInfo() {
+    if (this._internal.name) {
+      return this._internal.variablesModel.get(this._internal.name);
+    }
+
+    return '[No value set]';
   },
   outputs: {
     done: {
