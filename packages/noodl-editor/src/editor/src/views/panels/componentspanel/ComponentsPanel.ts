@@ -991,7 +991,7 @@ export class ComponentsPanelView extends View {
 
     // Find references
     const nodeReference = HACK_findNodeReference(scope.comp.name);
-    const nodeReferencesText = `Used in ${nodeReference?.referenaces?.length || 0} places`;
+    const nodeReferencesText = `Used in ~${nodeReference?.referenaces?.length || 0} places`;
 
     items = items.concat([
       {
@@ -1122,7 +1122,7 @@ export class ComponentsPanelView extends View {
     if (scope.canBecomeRoot) {
       // Find references
       const nodeReference = HACK_findNodeReference(scope.folder.component.name);
-      const nodeReferencesText = `Used in ${nodeReference?.referenaces?.length || 0} places`;
+      const nodeReferencesText = `Used in ~${nodeReference?.referenaces?.length || 0} places`;
 
       items = items.concat([{
         label: nodeReferencesText
