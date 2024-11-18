@@ -40,8 +40,8 @@ const ClosePopupNode = {
       this._internal.closeCallback = cb;
     },
     scheduleClose: function () {
-      var _this = this;
-      var internal = this._internal;
+      const _this = this;
+      const internal = this._internal;
       if (!internal.hasScheduledClose) {
         internal.hasScheduledClose = true;
         this.scheduleAfterInputsHaveUpdated(function () {
@@ -113,9 +113,8 @@ module.exports = {
         var closeActions = node.parameters['closeActions'];
         if (closeActions) {
           closeActions = closeActions ? closeActions.split(',') : undefined;
-          for (var i in closeActions) {
-            var p = closeActions[i];
-
+          for (const i in closeActions) {
+            const p = closeActions[i];
             ports.push({
               type: 'signal',
               plug: 'input',
