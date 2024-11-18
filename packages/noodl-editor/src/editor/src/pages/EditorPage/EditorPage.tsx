@@ -8,6 +8,7 @@ import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { platform } from '@noodl/platform';
 
+import { Keybindings } from '@noodl-constants/Keybindings';
 import { App } from '@noodl-models/app';
 import { AppRegistry } from '@noodl-models/app_registry';
 import { CloudService } from '@noodl-models/CloudServices';
@@ -156,7 +157,7 @@ export function EditorPage({ route }: EditorPageProps) {
   useKeyboardCommands(() => [
     {
       handler: () => SidebarModel.instance.switch('search'),
-      keybinding: KeyMod.CtrlCmd | KeyCode.KEY_F
+      keybinding: Keybindings.SEARCH.hash
     },
     {
       handler: () => EventDispatcher.instance.emit('viewer-open-devtools'),
