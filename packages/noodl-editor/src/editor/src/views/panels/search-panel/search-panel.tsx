@@ -5,9 +5,9 @@ import { useSidePanelKeyboardCommands } from '@noodl-hooks/useKeyboardCommands';
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Keybindings } from '@noodl-constants/Keybindings';
 import { ComponentModel } from '@noodl-models/componentmodel';
 import { NodeGraphNode } from '@noodl-models/nodegraphmodel';
-import { KeyCode, KeyMod } from '@noodl-utils/keyboard/KeyCode';
 import { performSearch } from '@noodl-utils/universal-search';
 
 import { SearchInput } from '@noodl-core-ui/components/inputs/SearchInput';
@@ -40,7 +40,7 @@ export function SearchPanel() {
           inputRef.current.focus();
           inputRef.current.select();
         },
-        keybinding: KeyMod.CtrlCmd | KeyCode.KEY_F
+        keybinding: Keybindings.SEARCH.hash
       }
     ],
     'search'
