@@ -165,6 +165,5 @@ packages/noodl-editor/tests/vendors-node_modules_monaco-editor_esm_vs_language_j
 packages/noodl-editor/tests/vendors-node_modules_monaco-editor_esm_vs_language_typescript_tsMode_js.index.bundle.js
 
 # Other
-packages/noodl-editor/src/external
 .github/.secrets
 packages/noodl-viewer-cloud/publish
