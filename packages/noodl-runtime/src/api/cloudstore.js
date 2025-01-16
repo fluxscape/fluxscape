@@ -471,8 +471,15 @@ class CloudStore {
 }
 
 function _isArrayOfObjects(a) {
-  if (!Array.isArray(a)) return false;
-  for (var i = 0; i < a.length; i++) if (typeof a[i] !== 'object' || a[i] === null) return false;
+  if (!Array.isArray(a)) {
+    return false;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (typeof a[i] !== 'object' || a[i] === null) {
+      return false;
+    }
+  }
 
   return true;
 }
@@ -544,54 +551,86 @@ function _serializeObject(data, collectionName, modelScope) {
   return data;
 }
 
+/**
+ *
+ * @param {unknown} data
+ * @param {string} type
+ * @param {*} modelScope
+ * @returns
+ */
 function _deserializeJSON(data, type, modelScope) {
-  if (data === undefined) return;
+  if (data === undefined) return undefined;
   if (data === null) return null;
 
   if (type === 'Relation' && data.__type === 'Relation') {
     return undefined; // Ignore relation fields
-  } else if (type === 'Pointer' && data.__type === 'Pointer') {
-    // This is a pointer type, resolve into id
+  }
+
+  // This is a pointer type, resolve into id
+  if (type === 'Pointer' && data.__type === 'Pointer') {
     return data.objectId;
-  } else if (type === 'Date' && data.__type === 'Date') {
+  }
+
+  if (type === 'Date' && data.__type === 'Date') {
     return new Date(data.iso);
-  } else if (type === 'Date' && typeof data === 'string') {
+  }
+
+  if (type === 'Date' && typeof data === 'string') {
     return new Date(data);
-  } else if (type === 'File' && data.__type === 'File') {
+  }
+
+  if (type === 'File' && data.__type === 'File') {
     return new CloudFile(data);
-  } else if (type === 'GeoPoint' && data.__type === 'GeoPoint') {
+  }
+
+  if (type === 'GeoPoint' && data.__type === 'GeoPoint') {
     return {
       latitude: data.latitude,
       longitude: data.longitude
     };
-  } else if (_isArrayOfObjects(data)) {
-    var a = [];
-    for (var i = 0; i < data.length; i++) {
+  }
+
+  if (_isArrayOfObjects(data)) {
+    const a = [];
+    for (let i = 0; i < data.length; i++) {
       a.push(_deserializeJSON(data[i], undefined, modelScope));
     }
-    var c = Collection.get();
+    const c = Collection.get();
     c.set(a);
     return c;
-  } else if (Array.isArray(data)) return data;
+  }
+
+  // An array with mixed types
+  if (Array.isArray(data)) {
+    return data;
+  }
+
   // This is an array with mixed data, just return it
-  else if (data && data.__type === 'Object' && data.className !== undefined && data.objectId !== undefined) {
+  if (data && data.__type === 'Object' && data.className !== undefined && data.objectId !== undefined) {
     const _data = Object.assign({}, data);
     delete _data.className;
     delete _data.__type;
     return _fromJSON(_data, data.className, modelScope);
-  } else if (typeof data === 'object' && data !== null) {
-    var m = (modelScope || Model).get();
-    for (var key in data) {
-      m.set(key, _deserializeJSON(data[key], undefined, modelScope));
+  }
+
+  if (typeof data === 'object' && data !== null) {
+    // Try to get the model by id, if it is defined, otherwise we create a new unique id.
+    const model = (modelScope || Model).get(data.id);
+    for (const key in data) {
+      const nestedValue = _deserializeJSON(data[key], undefined, modelScope);
+      model.set(key, nestedValue);
     }
-    return m;
-  } else return data;
+    return model;
+  }
+
+  return data;
 }
 
 function _fromJSON(item, collectionName, modelScope) {
   const modelStore = modelScope || Model;
 
-  const model = modelStore.get(item.objectId);
+  // Try to get the model by the object id (record) or id, otherwise we create a new unique id.
+  const model = modelStore.get(item.objectId || item.id);
   model._class = collectionName;
 
   let schema = undefined;
@@ -605,7 +644,8 @@ function _fromJSON(item, collectionName, modelScope) {
     }
 
     const _type = schema && schema.properties && schema.properties[key] ? schema.properties[key].type : undefined;
-    model.set(key, _deserializeJSON(item[key], _type, modelScope));
+    const nestedValue = _deserializeJSON(item[key], _type, modelScope);
+    model.set(key, nestedValue);
   }
 
   return model;
