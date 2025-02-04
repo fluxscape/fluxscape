@@ -58,14 +58,14 @@ rimraf.sync('./dist');
 rimraf.sync('./packages/noodl-editor/dist');
 
 // Build Viewer
-console.log('---> build viewer');
-execSync('npm run build:editor:_viewer', {
-  stdio: 'inherit',
-  env: {
-    ...process.env,
-    WORKSPACE_PATH
-  }
-});
+// console.log('---> build viewer');
+// execSync('npm run build:editor:_viewer', {
+//   stdio: 'inherit',
+//   env: {
+//     ...process.env,
+//     WORKSPACE_PATH
+//   }
+// });
 
 try {
   // Build Editor
@@ -76,7 +76,7 @@ try {
       ...process.env,
       WORKSPACE_PATH,
       DISABLE_SIGNING,
-      CSC_NAME,
+      CSC_NAME
     }
   });
 } catch (error) {
