@@ -22,6 +22,9 @@
 
 .LeftSide {
   flex-grow: 1;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
 }
 
 .is-padded-s {
@@ -51,7 +54,7 @@
 .UrlBarWrapper {
   flex-grow: 1;
   min-width: 150px;
-  max-width: 500px;
+  max-width: none;
   margin-right: -1px;
 }
 
@@ -108,4 +111,10 @@
     padding: 0 4px 0 8px;
     min-width: 0;
   }
+}
+
+.WarningsWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
