@@ -72,7 +72,7 @@ export class NodeGraphNode extends Model {
   metadata?: Record<string, any>;
 
   private _variant: TSFixme;
-  private _label: TSFixme;
+  _label: TSFixme;
   private _type: TSFixme;
   private _ports: TSFixme;
 
