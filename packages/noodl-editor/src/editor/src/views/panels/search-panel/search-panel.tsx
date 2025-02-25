@@ -5,10 +5,8 @@ import { useSidePanelKeyboardCommands } from '@noodl-hooks/useKeyboardCommands';
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ComponentModel } from '@noodl-models/componentmodel';
-import { NodeGraphNode } from '@noodl-models/nodegraphmodel';
 import { KeyCode, KeyMod } from '@noodl-utils/keyboard/KeyCode';
-import { performSearch } from '@noodl-utils/universal-search';
+import { performSearch, SearchResult } from '@noodl-utils/universal-search';
 
 import { SearchInput } from '@noodl-core-ui/components/inputs/SearchInput';
 import { Container } from '@noodl-core-ui/components/layout/Container';
@@ -21,7 +19,7 @@ import css from './search-panel.module.scss';
 
 export function SearchPanel() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<ReturnType<typeof performSearch>>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // TODO: Not same context
@@ -56,7 +54,7 @@ export function SearchPanel() {
     }
   }, [debouncedSearchTerm]);
 
-  function onSearchItemClicked(searchResult: SearchResultItem) {
+  function onSearchItemClicked(searchResult: SearchResult) {
     if (searchResult.type === 'Component') {
       NodeGraphContextTmp.switchToComponent(searchResult.componentTarget, {
         breadcrumbs: false,
@@ -99,21 +97,9 @@ export function SearchPanel() {
   );
 }
 
-type SearchResultItem = {
-  componentTarget: ComponentModel;
-  label: string;
-  nodeTarget: NodeGraphNode;
-  type: string;
-  userLabel: string;
-};
-
 type SearchItemProps = {
-  component: {
-    componentName: string;
-    componentId: string;
-    results: SearchResultItem[];
-  };
-  onSearchItemClicked: (item: SearchResultItem) => void;
+  component: ReturnType<typeof performSearch>[0];
+  onSearchItemClicked: (item: SearchResult) => void;
 };
 
 function SearchItem({ component, onSearchItemClicked }: SearchItemProps) {
@@ -130,11 +116,11 @@ function SearchItem({ component, onSearchItemClicked }: SearchItemProps) {
     <Section title={titleText} variant={SectionVariant.Panel}>
       {component.results.map((result, index) => (
         <div
+          key={index}
           className={classNames(
             css.SearchResultItem
             // lastActiveComponentId === result.componentTarget.id && css['is-active']
           )}
-          key={index}
           onClick={() => onSearchItemClicked(result)}
         >
           <Label variant={TextType.Proud}>

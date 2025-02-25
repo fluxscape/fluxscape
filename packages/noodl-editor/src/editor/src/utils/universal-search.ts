@@ -3,18 +3,25 @@ import type { NodeGraphNode } from '@noodl-models/nodegraphmodel';
 
 import { ProjectModel } from '../models/projectmodel';
 
+export type SearchResult = {
+  componentTarget: ComponentModel;
+  nodeTarget?: NodeGraphNode;
+  type?: string;
+  userLabel?: string;
+  label: string;
+};
+
 function matchStrings(string1: string, string2: string) {
   return string1.toLowerCase().indexOf(string2.toLowerCase()) !== -1;
 }
 
 function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, component: ComponentModel) {
-  let results = [];
-  let matchLabel = null;
-  let i = 0;
+  let results: SearchResult[] = [];
+  let matchLabel: string | null = null;
 
   if (node._label !== undefined && matchStrings(node._label, searchTerms)) {
     matchLabel = node.label;
-  } else if (matchStrings(node.id, searchTerms)) {
+  } else if (node.id === searchTerms) {
     matchLabel = node.id;
   } else if (matchStrings(node.type.displayName || node.type.name, searchTerms)) {
     matchLabel = node.label;
@@ -55,7 +62,7 @@ function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, compone
 
     if (matchLabel === null) {
       const ports = node.dynamicports;
-      for (i = 0; i < ports.length; ++i) {
+      for (let i = 0; i < ports.length; ++i) {
         const port = ports[i];
         if (matchStrings(port.name, searchTerms)) {
           matchLabel = node.label + ' : ' + port.name;
@@ -66,7 +73,7 @@ function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, compone
 
     if (matchLabel === null) {
       const ports = node.ports;
-      for (i = 0; i < ports.length; ++i) {
+      for (let i = 0; i < ports.length; ++i) {
         const port = ports[i];
         if (matchStrings(port.name, searchTerms)) {
           matchLabel = node.label + ' : ' + port.name;
@@ -86,7 +93,7 @@ function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, compone
     });
   }
 
-  for (i = 0; i < node.children.length; ++i) {
+  for (let i = 0; i < node.children.length; ++i) {
     const child = node.children[i];
     const childResults = searchInNodeRecursive(child, searchTerms, component);
     results = results.concat(childResults);
@@ -96,7 +103,7 @@ function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, compone
 }
 
 function searchInComponent(component: ComponentModel, searchTerms: string) {
-  let results = [];
+  let results: SearchResult[] = [];
   if (matchStrings(component.displayName, searchTerms)) {
     results.push({
       componentTarget: component,
@@ -136,7 +143,7 @@ function searchInComponent(component: ComponentModel, searchTerms: string) {
 }
 
 export function performSearch(searchTerms: string) {
-  const results = [];
+  const results: ReturnType<typeof searchInComponent>[] = [];
   const root = ProjectModel.instance.getRootNode();
   if (root === undefined) return;
 
