@@ -1,13 +1,16 @@
-const { ProjectModel } = require('../models/projectmodel');
+import type { ComponentModel } from '@noodl-models/componentmodel';
+import type { NodeGraphNode } from '@noodl-models/nodegraphmodel';
 
-function matchStrings(string1, string2) {
+import { ProjectModel } from '../models/projectmodel';
+
+function matchStrings(string1: string, string2: string) {
   return string1.toLowerCase().indexOf(string2.toLowerCase()) !== -1;
 }
 
-function searchInNodeRecursive(node, searchTerms, component) {
-  var results = [];
-  var matchLabel = null;
-  var i = 0;
+function searchInNodeRecursive(node: NodeGraphNode, searchTerms: string, component: ComponentModel) {
+  let results = [];
+  let matchLabel = null;
+  let i = 0;
 
   if (node._label !== undefined && matchStrings(node._label, searchTerms)) {
     matchLabel = node.label;
@@ -16,7 +19,7 @@ function searchInNodeRecursive(node, searchTerms, component) {
   } else if (matchStrings(node.type.displayName || node.type.name, searchTerms)) {
     matchLabel = node.label;
   } else {
-    let parameterNames = Object.keys(node.parameters);
+    const parameterNames = Object.keys(node.parameters);
     for (const parameterNameIndex in parameterNames) {
       const parameterName = parameterNames[parameterNameIndex];
 
@@ -25,7 +28,7 @@ function searchInNodeRecursive(node, searchTerms, component) {
         matchStrings(node.parameters[parameterName], searchTerms)
       ) {
         let displayLabel = parameterName;
-        let connectionPort = node.type.ports?.find((port) => port.name === parameterName);
+        const connectionPort = node.type.ports?.find((port) => port.name === parameterName);
         if (connectionPort) {
           displayLabel = connectionPort.displayName;
         }
@@ -51,9 +54,9 @@ function searchInNodeRecursive(node, searchTerms, component) {
     }
 
     if (matchLabel === null) {
-      var ports = node.dynamicports;
+      const ports = node.dynamicports;
       for (i = 0; i < ports.length; ++i) {
-        var port = ports[i];
+        const port = ports[i];
         if (matchStrings(port.name, searchTerms)) {
           matchLabel = node.label + ' : ' + port.name;
           break;
@@ -62,9 +65,9 @@ function searchInNodeRecursive(node, searchTerms, component) {
     }
 
     if (matchLabel === null) {
-      var ports = node.ports;
+      const ports = node.ports;
       for (i = 0; i < ports.length; ++i) {
-        var port = ports[i];
+        const port = ports[i];
         if (matchStrings(port.name, searchTerms)) {
           matchLabel = node.label + ' : ' + port.name;
           break;
@@ -84,16 +87,16 @@ function searchInNodeRecursive(node, searchTerms, component) {
   }
 
   for (i = 0; i < node.children.length; ++i) {
-    var child = node.children[i];
-    var childResults = searchInNodeRecursive(child, searchTerms, component);
+    const child = node.children[i];
+    const childResults = searchInNodeRecursive(child, searchTerms, component);
     results = results.concat(childResults);
   }
 
   return results;
 }
 
-function searchInComponent(component, searchTerms) {
-  var results = [];
+function searchInComponent(component: ComponentModel, searchTerms: string) {
+  let results = [];
   if (matchStrings(component.displayName, searchTerms)) {
     results.push({
       componentTarget: component,
@@ -102,14 +105,14 @@ function searchInComponent(component, searchTerms) {
     });
   }
 
-  for (var i = 0; i < component.graph.roots.length; ++i) {
-    var node = component.graph.roots[i];
-    var nodeResults = searchInNodeRecursive(node, searchTerms, component);
+  for (let i = 0; i < component.graph.roots.length; ++i) {
+    const node = component.graph.roots[i];
+    const nodeResults = searchInNodeRecursive(node, searchTerms, component);
     results = results.concat(nodeResults);
   }
 
   if (component.graph.commentsModel.comments) {
-    for (var i = 0; i < component.graph.commentsModel.comments.length; ++i) {
+    for (let i = 0; i < component.graph.commentsModel.comments.length; ++i) {
       const comment = component.graph.commentsModel.comments[i];
       if (matchStrings(comment.text, searchTerms)) {
         results.push({
@@ -132,17 +135,17 @@ function searchInComponent(component, searchTerms) {
   }
 }
 
-export function performSearch(searchTerms) {
-  var results = [];
-  var root = ProjectModel.instance.getRootNode();
+export function performSearch(searchTerms: string) {
+  const results = [];
+  const root = ProjectModel.instance.getRootNode();
   if (root === undefined) return;
 
-  var components = ProjectModel.instance.components;
+  const components = ProjectModel.instance.components;
 
-  for (var i = 0; i < components.length; ++i) {
-    var component = components[i];
+  for (let i = 0; i < components.length; ++i) {
+    const component = components[i];
 
-    var componentResults = searchInComponent(component, searchTerms);
+    const componentResults = searchInComponent(component, searchTerms);
     if (componentResults !== null) {
       //limit the label length (it can search in markdown, css, etc)
       for (const result of componentResults.results) {
