@@ -182,7 +182,7 @@ function AiNodeChat({ context, onUpdated }: AiNodeChatProps) {
       footer={
         version === 'disabled' ? (
           <Center>
-            <Text textType={TextType.Shy}>Noodl AI is currently disabled.</Text>
+            <Text textType={TextType.Shy}>FluxScape AI is currently disabled.</Text>
           </Center>
         ) : (
           <>

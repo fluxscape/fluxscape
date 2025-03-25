@@ -44,7 +44,7 @@ export function OpenAiSection() {
   }
 
   return (
-    <CollapsableSection title="Noodl AI (Beta)">
+    <CollapsableSection title="FluxScape AI (Beta)">
       <Box hasXSpacing>
         <VStack>
           <PropertyPanelRow label="Version" isChanged={false}>
@@ -66,7 +66,7 @@ export function OpenAiSection() {
 
           {enabledState === 'disabled' && (
             <Box hasYSpacing>
-              <Text>Noodl AI is currently disabled.</Text>
+              <Text>FluxScape AI is currently disabled.</Text>
             </Box>
           )}
 
@@ -157,16 +157,16 @@ export function OpenAiSection() {
             UNSAFE_style={{ borderRadius: '2px', background: 'var(--theme-color-bg-3)' }}
           >
             <Title size={TitleSize.Medium} hasBottomSpacing>
-              Noodl AI docs
+              FluxScape AI docs
             </Title>
-            <Text hasBottomSpacing>See setup instructions and guides for how to use Noodl AI on our docs.</Text>
+            <Text hasBottomSpacing>See setup instructions and guides for how to use FluxScape AI on our docs.</Text>
             <PrimaryButton
               variant={PrimaryButtonVariant.Muted}
               size={PrimaryButtonSize.Small}
               isGrowing
               label="Open docs"
               onClick={() => {
-                platform.openExternal('https://docs.noodl.net/#/docs/getting-started/noodl-ai/');
+                platform.openExternal('https://docs.fluxscape.io/docs/getting-started/noodl-ai');
               }}
             />
           </Box>

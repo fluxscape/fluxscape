@@ -211,7 +211,7 @@ export default function Clippy() {
     aiAssistantModel.removeActivity(id);
   }
 
-  const initialPlaceholder = isInputOpen ? 'Select (or type) a command below' : 'Ask Noodl AI';
+  const initialPlaceholder = isInputOpen ? 'Select (or type) a command below' : 'Ask FluxScape AI';
   const isPromptInWrongOrder = Boolean(!selectedOption) && Boolean(secondInputValue);
   const isFullBeta = ['full-beta', 'enterprise'].includes(version);
   const isLimitedBeta = false; // TODO: version === 'limited-beta';
@@ -412,8 +412,8 @@ export default function Clippy() {
               <Text hasBottomSpacing>4. Click the "Verify API Key" button</Text>
 
               <Text hasBottomSpacing>
-                If you dont have an API key with GPT-4 access, you can set the Noodl AI to use the Limited Beta in the
-                editor settings.
+                If you dont have an API key with GPT-4 access, you can set the FluxScape AI to use the Limited Beta in
+                the editor settings.
               </Text>
               <PrimaryButton
                 size={PrimaryButtonSize.Small}
@@ -597,8 +597,8 @@ export default function Clippy() {
               </Label>
 
               <Text hasBottomSpacing size={TextSize.Medium}>
-                You are running the limited beta of Noodl AI. If features fewer commands and a less capable AI. Get full
-                beta access by bringing your own GPT-4 API key.
+                You are running the limited beta of FluxScape AI. If features fewer commands and a less capable AI. Get
+                full beta access by bringing your own GPT-4 API key.
               </Text>
 
               <PrimaryButton
