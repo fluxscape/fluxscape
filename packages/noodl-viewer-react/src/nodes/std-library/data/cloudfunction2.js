@@ -3,6 +3,17 @@ const CloudStore = require('@noodl/runtime/src/api/cloudstore');
 
 ('use strict');
 
+/**
+ * @param {string} path
+ * @param {{
+ *  endpoint: string;
+ *  method: string;
+ *  appId: string;
+ *  content: any;
+ *  success: (json: object) => void;
+ *  error: (json: object | undefined) => void;
+ * }} options
+ */
 function _makeRequest(path, options) {
   var xhr = new XMLHttpRequest();
 
@@ -15,7 +26,9 @@ function _makeRequest(path, options) {
 
       if (xhr.status === 200 || xhr.status === 201) {
         options.success(json);
-      } else options.error(json);
+      } else {
+        options.error(json);
+      }
     }
   };
 
@@ -191,7 +204,7 @@ var CloudFunctionNode = {
           this.sendSignalOnOutput('success');
         },
         error: (e) => {
-          const error = typeof e === 'string' ? e : e.error || 'Failed running cloud function.';
+          const error = typeof e === 'string' ? e : e?.error || 'Failed running cloud function.';
           this._internal.lastCallResult = {
             status: 'failure',
             error
