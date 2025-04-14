@@ -12,6 +12,7 @@ import { Text, TextType } from '@noodl-core-ui/components/typography/Text';
 
 import { ToastType } from '../../../ToastLayer/components/ToastCard';
 import { useCloudServiceContext } from '../CloudServicePanel.context';
+import { ProjectModel } from '@noodl-models/projectmodel';
 
 function isValidParseUrl(url: string) {
   if (!url) return false;
@@ -63,7 +64,7 @@ export function CloudServiceCreateModal({ isVisible, onClose }: CloudServiceCrea
 
   async function onCreate() {
     await runActivity('Creating Cloud Service...', async () => {
-      await cloudService.backend.create({
+      await cloudService.backend.create(ProjectModel.instance, {
         name,
         description,
         masterKey: masterKey ? masterKey : undefined,

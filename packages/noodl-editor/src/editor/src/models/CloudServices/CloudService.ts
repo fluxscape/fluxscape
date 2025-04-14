@@ -1,9 +1,9 @@
-import { Environment, ExternalCloudService } from '@noodl-models/CloudServices/ExternalCloudService';
 import {
   CloudServiceEvent,
   CloudServiceEvents,
   CreateEnvironment,
   CreateEnvironmentRequest,
+  Environment,
   ICloudBackendService,
   ICloudService,
   UpdateEnvironmentRequest
@@ -11,6 +11,9 @@ import {
 import { ProjectModel } from '@noodl-models/projectmodel';
 import { getCloudServices } from '@noodl-models/projectmodel.editor';
 import { Model } from '@noodl-utils/model';
+
+import { GlobalCloudService } from './providers/GlobalCloudService';
+import { ProjectCloudService } from './providers/ProjectCloudService';
 
 export type CloudQueueItem = {
   frontendId: string;
@@ -20,7 +23,9 @@ export type CloudQueueItem = {
 class CloudBackendService implements ICloudBackendService {
   private _isLoading = false;
   private _collection?: Environment[];
-  private _localExternal = new ExternalCloudService();
+
+  private _globalProvider = new GlobalCloudService();
+  private _projectProvider = new ProjectCloudService();
 
   get isLoading(): boolean {
     return this._isLoading;
@@ -32,12 +37,14 @@ class CloudBackendService implements ICloudBackendService {
 
   constructor(private readonly service: CloudService) {}
 
-  async fetch(): Promise<Environment[]> {
+  async fetch(project: ProjectModel): Promise<Environment[]> {
     this._isLoading = true;
     try {
-      // Fetch environments from local machine
-      const localEnvironments = await this._localExternal.list();
-      this._collection = localEnvironments.map((x) => new Environment(x));
+      const projectResults = await this._projectProvider.list(project);
+      this._collection = projectResults.map((x) => new Environment("project", x));
+
+      const globalResults = await this._globalProvider.list(project);
+      this._collection = this._collection.concat(globalResults.map((x) => new Environment("global", x)));
     } finally {
       this._isLoading = false;
       this.service.notifyListeners(CloudServiceEvent.BackendUpdated);
@@ -48,7 +55,7 @@ class CloudBackendService implements ICloudBackendService {
   async fromProject(project: ProjectModel): Promise<Environment> {
     const activeCloudServices = getCloudServices(project);
     if (!this._collection) {
-      await this.fetch();
+      await this.fetch(project);
     }
 
     return this.items.find((b) => {
@@ -56,16 +63,16 @@ class CloudBackendService implements ICloudBackendService {
     });
   }
 
-  async create(options: CreateEnvironmentRequest): Promise<CreateEnvironment> {
-    return await this._localExternal.create(options);
+  async create(project: ProjectModel, options: CreateEnvironmentRequest): Promise<CreateEnvironment> {
+    return await this._projectProvider.create(project, options);
   }
 
-  async update(options: UpdateEnvironmentRequest): Promise<boolean> {
-    return await this._localExternal.update(options);
+  async update(project: ProjectModel, options: UpdateEnvironmentRequest): Promise<boolean> {
+    return await this._projectProvider.update(project, options);
   }
 
-  async delete(id: string): Promise<boolean> {
-    return await this._localExternal.delete(id);
+  async delete(project: ProjectModel, id: string): Promise<boolean> {
+    return await this._projectProvider.delete(project, id);
   }
 }
 
@@ -95,15 +102,11 @@ export class CloudService extends Model<CloudServiceEvent, CloudServiceEvents> i
    */
   public async prefetch() {
     this.reset();
-    await this.fetch();
-  }
-
-  public async fetch() {
-    await this.backend.fetch();
+    await this.backend.fetch(ProjectModel.instance);
   }
 
   public async getActiveEnvironment(project: ProjectModel): Promise<Environment> {
-    await this.backend.fetch();
+    await this.backend.fetch(project);
     return this.backend.fromProject(project);
   }
 }
