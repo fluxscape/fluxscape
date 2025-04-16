@@ -1167,6 +1167,28 @@ EventDispatcher.instance.on(
   null
 );
 
+NodeLibrary.instance.on('libraryUpdated', () => {
+  const library = NodeLibrary.instance.library;
+
+  // Check if we have any data from the browser
+  if (Object.keys(library?.nodeIndex || {}).length > 0) {
+    const filepath = filesystem.join(ProjectModel.instance._retainedProjectDirectory, 'nodelibrary.json');
+
+    const compactLibrary = {
+      typecasts: library.typecasts,
+      dynamicports: library.dynamicports,
+      nodetypes: library.nodetypes,
+      // NOTE: Let's save the node index for now, most likely this is something we will just ignore.
+      nodeIndex: library.nodeIndex,
+      projectsettings: library.projectsettings
+    };
+
+    filesystem.writeJson(filepath, compactLibrary).then(() => {
+      console.log('saved nodelibrary.json');
+    });
+  }
+});
+
 function saveProject() {
   if (!ProjectModel.instance) return;
 
