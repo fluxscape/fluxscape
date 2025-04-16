@@ -1,9 +1,11 @@
 import _ from 'underscore';
+import { filesystem } from '@noodl/platform';
 
 import { ComponentModel } from '@noodl-models/componentmodel';
 import { NodeGraphNode } from '@noodl-models/nodegraphmodel';
 import { BasicNodeType } from '@noodl-models/nodelibrary/BasicNodeType';
 import { UnknownNodeType } from '@noodl-models/nodelibrary/UnknownNodeType';
+import { ProjectModel } from '@noodl-models/projectmodel';
 
 import Model from '../../../../shared/model';
 import { ModelProxy } from '../../views/panels/propertyeditor/models/modelProxy';

@@ -4,7 +4,7 @@ import { clearFolders } from './cleanup';
 
 export async function copyProjectFilesToFolder(projectPath: string, direntry: string): Promise<void> {
   // TODO: Load something like .noodlignore file list
-  const ignoreFiles = ['.DS_Store', '.gitignore', '.gitattributes', 'project.json', 'Dockerfile'];
+  const ignoreFiles = ['.DS_Store', '.gitignore', '.gitattributes', 'project.json', 'Dockerfile', 'nodelibrary.json'];
 
   // Copy everything from the project folder
   if (!projectPath) {

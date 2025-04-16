@@ -1167,6 +1167,16 @@ EventDispatcher.instance.on(
   null
 );
 
+NodeLibrary.instance.on('libraryUpdated', () => {
+  const library = NodeLibrary.instance.library;
+  if (library) {
+    const filepath = filesystem.join(ProjectModel.instance._retainedProjectDirectory, 'nodelibrary.json');
+    filesystem.writeJson(filepath, library).then(() => {
+      console.log('saved nodelibrary.json');
+    });
+  }
+});
+
 function saveProject() {
   if (!ProjectModel.instance) return;
 
