@@ -1,11 +1,13 @@
+import * as CloudService from './commands/cloud-service';
 import * as Notify from './commands/notify';
 import * as UploadAwsS3 from './commands/upload-aws-s3';
 
-type IFrameCommand = Notify.Command | UploadAwsS3.Command;
+type IFrameCommand = Notify.Command | UploadAwsS3.Command | CloudService.Command;
 
 const commands: Record<IFrameCommand['kind'], (command: IFrameCommand, event: MessageEvent) => Promise<void>> = {
   notify: Notify.execute,
-  'upload-aws-s3': UploadAwsS3.execute
+  'upload-aws-s3': UploadAwsS3.execute,
+  'cloud-service': CloudService.execute
 };
 
 export function commandEventHandler(event: MessageEvent) {
