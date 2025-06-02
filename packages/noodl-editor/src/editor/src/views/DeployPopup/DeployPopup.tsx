@@ -1,4 +1,5 @@
 import React, { RefObject } from 'react';
+import { platform } from '@noodl/platform';
 
 import { ProjectModel } from '@noodl-models/projectmodel';
 
@@ -64,7 +65,9 @@ export function DeployPopup(props: DeployPopupProps) {
 }
 
 function FluxscapeDeployTab() {
-  const params = {};
+  const params = {
+    version: platform.getVersion()
+  };
 
   const projectId = ProjectModel.instance.id;
   if (projectId) {
