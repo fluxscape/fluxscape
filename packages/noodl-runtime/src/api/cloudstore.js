@@ -648,6 +648,12 @@ function _fromJSON(item, collectionName, modelScope) {
     model.set(key, nestedValue);
   }
 
+  // Add the ACL roles to a global object
+  if (item.objectId && item.ACL) {
+    const aclModel = modelStore.get('--ndl--acl');
+    aclModel.set(item.objectId, item.ACL);
+  }
+
   return model;
 }
 
