@@ -500,8 +500,8 @@ function onFrameStart() {
 }
 
 function _typename(type) {
-  if (typeof type === 'string') return type;
-  else return type.name;
+  if (typeof type === 'object') return type.name;
+  return type;
 }
 
 function userInputSetter(name, value) {
