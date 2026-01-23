@@ -1167,6 +1167,24 @@ EventDispatcher.instance.on(
   null
 );
 
+function mapNodeType(value) {
+  const dto = { ...value };
+
+  if (value.dynamicports) {
+    dto.dynamicports = value.dynamicports.map((rule) => {
+      if (['conditionalports/basic', 'conditionalports/extended'].includes(rule.name)) {
+        return {
+          condition: rule.condition,
+          inputs: rule.ports.map((port) => port.name)
+        };
+      }
+      return rule;
+    });
+  }
+
+  return dto;
+}
+
 NodeLibrary.instance.on('libraryUpdated', () => {
   const library = NodeLibrary.instance.library;
 
@@ -1177,7 +1195,7 @@ NodeLibrary.instance.on('libraryUpdated', () => {
     const compactLibrary = {
       typecasts: library.typecasts,
       dynamicports: library.dynamicports,
-      nodetypes: library.nodetypes,
+      nodetypes: library.nodetypes.map(mapNodeType),
       // NOTE: Let's save the node index for now, most likely this is something we will just ignore.
       nodeIndex: library.nodeIndex,
       projectsettings: library.projectsettings
