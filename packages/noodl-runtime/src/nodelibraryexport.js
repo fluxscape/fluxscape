@@ -499,7 +499,7 @@ function generateNodeLibrary(nodeRegister) {
     },
     {
       name: 'Read & Write Data',
-      description: 'Arrays, objects, cloud data',
+      description: 'Arrays, objects',
       type: 'data',
       subCategories: [
         {
@@ -529,7 +529,18 @@ function generateNodeLibrary(nodeRegister) {
           ]
         },
         {
-          name: 'Cloud Data',
+          name: 'External Data',
+          items: ['REST2']
+        }
+      ]
+    },
+    {
+      name: 'Cloud Service',
+      description: '',
+      type: 'data',
+      subCategories: [
+        {
+          name: '',
           items: [
             'DbModel2',
             'NewDbModelProperties',
@@ -558,10 +569,6 @@ function generateNodeLibrary(nodeRegister) {
             'net.noodl.user.ResetPassword',
             'net.noodl.user.RequestPasswordReset'
           ]
-        },
-        {
-          name: 'External Data',
-          items: ['REST2']
         }
       ]
     },
