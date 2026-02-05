@@ -35,7 +35,7 @@ export function CloudServiceContextProvider({ children }) {
   const { hasActivity, runActivity } = useActivityQueue({
     onSuccess: async () => {
       // Always fetch all the backends after something have changed
-      await cloudService.backend.fetch();
+      await cloudService.backend.fetch(ProjectModel.instance);
     }
   });
 

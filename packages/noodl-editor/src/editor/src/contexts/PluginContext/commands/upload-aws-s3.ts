@@ -48,7 +48,7 @@ export async function execute(command: Command, event: MessageEvent) {
 
   // Deploy to temp folder
   await compilation.deployToFolder(tempDir, {
-    environment: command.cloudService ? new Environment(command.cloudService) : undefined
+    environment: command.cloudService ? new Environment("", command.cloudService) : undefined
   });
 
   // Upload to S3

@@ -1,4 +1,3 @@
-import { Environment } from '@noodl-models/CloudServices';
 import { ProjectModel } from '@noodl-models/projectmodel';
 import { IModel } from '@noodl-utils/model';
 
@@ -30,11 +29,11 @@ export interface ICloudBackendService {
   get isLoading(): boolean;
   get items(): Environment[];
 
-  fetch(): Promise<Environment[]>;
+  fetch(project: ProjectModel): Promise<Environment[]>;
   fromProject(project: ProjectModel): Promise<Environment> | undefined;
-  create(options: CreateEnvironmentRequest): Promise<CreateEnvironment>;
-  update(options: UpdateEnvironmentRequest): Promise<boolean>;
-  delete(id: string): Promise<boolean>;
+  create(project: ProjectModel, options: CreateEnvironmentRequest): Promise<CreateEnvironment>;
+  update(project: ProjectModel, options: UpdateEnvironmentRequest): Promise<boolean>;
+  delete(project: ProjectModel, id: string): Promise<boolean>;
 }
 
 export enum CloudServiceEvent {
@@ -54,4 +53,55 @@ export interface ICloudService extends IModel<CloudServiceEvent, CloudServiceEve
   getActiveEnvironment(project: ProjectModel): Promise<Environment>;
 
   get backend(): ICloudBackendService;
+}
+
+/** The data format is separated from our internal model. */
+export type EnvironmentDataFormat = {
+  enabled: boolean;
+  id: string;
+  name: string;
+  description: string;
+  masterKey: string;
+  appId: string;
+  endpoint: string;
+};
+
+export class Environment {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  masterKeyUpdatedAt: string;
+  masterKey: string;
+  appId: string;
+  url: string;
+
+  provider: string;
+
+  get typeDisplayName() {
+    switch (this.provider) {
+      case "project": return "Self hosted";
+      default: return "Global Self hosted"
+    }
+  }
+
+  constructor(provider: string, item: EnvironmentDataFormat) {
+    this.provider = provider;
+
+    this.id = item.id;
+    this.name = item.name;
+    this.description = item.description;
+    this.createdAt = '';
+    this.masterKeyUpdatedAt = '';
+    this.masterKey = item.masterKey;
+    this.appId = item.appId;
+    this.url = item.endpoint;
+  }
+}
+
+export interface ICloudServiceProvider {
+  list(project: ProjectModel | undefined): Promise<EnvironmentDataFormat[]>;
+  create(project: ProjectModel | undefined, options: CreateEnvironmentRequest): Promise<CreateEnvironment>;
+  update(project: ProjectModel | undefined, options: UpdateEnvironmentRequest): Promise<boolean>;
+  delete(project: ProjectModel | undefined, id: string): Promise<boolean>;
 }
